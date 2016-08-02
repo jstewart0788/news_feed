@@ -56,8 +56,20 @@ module.exports = function(app){
 		//after everything is finished reload page with DB information
 		db.scrapedData.find({}, function(err,data)
 		{
-			res.render('index', data);
+			res.render('index', {data});
 
 		})
+	});
+
+	app.post('/:id', function(req, res) {
+
+		var id = req.params.id;
+		console.log(id);
+
+		db.scrapedData.find({}, function(err,data)
+		{
+			res.render('index', {data});
+
+		});
 	});
 }

@@ -1,0 +1,6 @@
+<h1>Current Articles</h1>
+<ul>
+{{#each data}}
+	<li><h2> <a href='{{this.link}}'>{{this.title}}</a> </h2><div class='commentArea' data-id="{{this._id}}"> <button type="button" class="btn btn-default commentAdder"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></div> </li>
+{{/each}}
+</ul>
