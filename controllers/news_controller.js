@@ -33,6 +33,7 @@ module.exports = function(app){
 				var articleInfo = {
 					title : entry[0],
 					link : entry[1],
+					comments: []
 				};
 				//See if article already exists in database
 				db.scrapedData.find(articleInfo, function(err,data)
@@ -61,15 +62,37 @@ module.exports = function(app){
 		})
 	});
 
-	app.post('/:id', function(req, res) {
+	app.post('/delete', function(req, res){
+		
+		var id = req.body.commID;
+		var comment = req.body.comment;
 
-		var id = req.params.id;
-		console.log(id);
+	
+
+		db.scrapedData.update({_id: mongojs.ObjectId(id)}, { $pull: { comments: { $in: [ comment ] }}});
 
 		db.scrapedData.find({}, function(err,data)
 		{
 			res.render('index', {data});
 
 		});
+
 	});
+
+	app.post('/update/:id', function(req, res) {
+
+		var id = req.params.id;
+		db.scrapedData.update({_id: mongojs.ObjectId(id)}, {$push: {'comments': req.body.comment}}, function(err)
+		{
+			if(err) throw err;
+		});
+		db.scrapedData.find({}, function(err,data)
+		{
+			res.render('index', {data});
+
+		});
+	});
+
+
+
 }
